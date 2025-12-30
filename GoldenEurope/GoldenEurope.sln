@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenEurope.API", "GoldenEurope.API\GoldenEurope.API.csproj", "{CB178D12-71B6-4069-80CF-16F3633924DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{41BACF59-0CF5-4666-82D1-F78132D75E75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenEurope.Business", "GoldenEurope.Business\GoldenEurope.Business.csproj", "{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{45548D36-4875-4E87-AD8B-C4EB2CA25F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenEurope.Infrastructure", "GoldenEurope.Infrastructure\GoldenEurope.Infrastructure.csproj", "{DE50072F-6F44-4AD8-A96D-495744C53F39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{43C236B6-92EC-4D02-AF2E-E306C0734D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenEurope.Core", "GoldenEurope.Core\GoldenEurope.Core.csproj", "{BC9B90A7-3F44-4FAA-8F35-05BE110288B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenEurope.Persistance", "GoldenEurope.Persistance\GoldenEurope.Persistance.csproj", "{FDA6DB3B-AF6A-4810-9773-CE59E7658C65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01C02EFA-A762-4600-9600-1D763106655E}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB178D12-71B6-4069-80CF-16F3633924DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB178D12-71B6-4069-80CF-16F3633924DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB178D12-71B6-4069-80CF-16F3633924DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB178D12-71B6-4069-80CF-16F3633924DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE50072F-6F44-4AD8-A96D-495744C53F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE50072F-6F44-4AD8-A96D-495744C53F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE50072F-6F44-4AD8-A96D-495744C53F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE50072F-6F44-4AD8-A96D-495744C53F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9B90A7-3F44-4FAA-8F35-05BE110288B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9B90A7-3F44-4FAA-8F35-05BE110288B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9B90A7-3F44-4FAA-8F35-05BE110288B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9B90A7-3F44-4FAA-8F35-05BE110288B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA6DB3B-AF6A-4810-9773-CE59E7658C65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA6DB3B-AF6A-4810-9773-CE59E7658C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA6DB3B-AF6A-4810-9773-CE59E7658C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA6DB3B-AF6A-4810-9773-CE59E7658C65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A73369E-FB7A-40B5-8F6F-11EE4A6C8638} = {41BACF59-0CF5-4666-82D1-F78132D75E75}
+		{DE50072F-6F44-4AD8-A96D-495744C53F39} = {45548D36-4875-4E87-AD8B-C4EB2CA25F3D}
+		{BC9B90A7-3F44-4FAA-8F35-05BE110288B0} = {43C236B6-92EC-4D02-AF2E-E306C0734D19}
+		{FDA6DB3B-AF6A-4810-9773-CE59E7658C65} = {45548D36-4875-4E87-AD8B-C4EB2CA25F3D}
+	EndGlobalSection
+EndGlobal

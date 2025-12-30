@@ -1,0 +1,6 @@
+@GoldenEurope.API_HostAddress = http://localhost:5261
+
+GET {{GoldenEurope.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

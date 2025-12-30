@@ -1,0 +1,54 @@
+## --- .NET CORE STANDARD ---
+[Bb]in/
+[Oo]bj/
+.config/
+*.pdb
+*.user
+*.useros
+*.toolset
+*.suo
+*.bak
+*.log
+*.tmp
+TestResults/
+
+## --- RIDER / VISUAL STUDIO / VS CODE ---
+.idea/
+.vs/
+.vscode/
+*.sln.docstates
+
+## --- CONFIGURATION & SECRETS (ВАЖЛИВО) ---
+# Ігноруємо конфіги, де можуть бути паролі
+**/appsettings.Development.json
+**/appsettings.Local.json
+.env
+
+# За бажанням: ігнорувати launchSettings (налаштування портів)
+# **/Properties/launchSettings.json
+
+# УВАГА: appsettings.json зазвичай КОМІТЯТЬ, бо там структура проекту. 
+# Але якщо ти пишеш паролі прямо туди (не в Development), то розкоментуй рядок нижче:
+# **/appsettings.json
+
+## --- DOCKER ---
+docker-compose.override.yml
+.dockerignore
+
+## --- MIGRATIONS ---
+# Міграції ОБОВ'ЯЗКОВО треба комітити, тому ми їх НЕ ігноруємо.
+# (Ніколи не додавай папку Migrations сюди)
+
+## --- OS FILES ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## --- NUGET ---
+*.nupkg
+# Папку packages зазвичай не комітять, бо restore підтягує все саме
+packages/
+**/packages/*
+!**/packages/build/
+# Ігноруємо основний файл конфігурації з паролями
+**/appsettings.json
