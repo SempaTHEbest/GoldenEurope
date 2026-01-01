@@ -20,5 +20,7 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasPrecision(4, 1);
         builder.Property(c => c.Description)
             .HasMaxLength(1000);
+        builder.Property(c => c.Condition)
+            .IsRequired();
     }
 }

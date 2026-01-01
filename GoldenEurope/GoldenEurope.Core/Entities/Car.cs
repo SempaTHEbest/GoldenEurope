@@ -20,6 +20,7 @@ public class Car : BaseEntity
     
     //appearance
     public string Color { get; set; } = string.Empty;
+    public CarCondition Condition { get; set; }
     
     //Description
     public string Description { get; set; } = string.Empty;
