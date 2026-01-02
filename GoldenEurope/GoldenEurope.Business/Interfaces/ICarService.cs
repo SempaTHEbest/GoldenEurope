@@ -1,0 +1,10 @@
+using GoldenEurope.Business.DTOs;
+
+namespace GoldenEurope.Business.Interfaces;
+
+public interface ICarService
+{
+    Task<IEnumerable<CarDto>> SearchCarsAsync(CarSearchDto dto);
+    Task<CarDto> GetCarByIdAsync(Guid id);
+    Task CreateCarAsync(CreateCarDto dto);
+}
