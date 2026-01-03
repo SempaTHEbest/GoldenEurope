@@ -63,4 +63,10 @@ public class CarRepository : ICarRepository
         _context.Set<Car>().Update(car);
         await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(Car car)
+    {
+        _context.Set<Car>().Remove(car);
+        await _context.SaveChangesAsync();
+    }
 }

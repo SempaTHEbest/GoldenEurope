@@ -45,4 +45,13 @@ public class CarsController : ControllerBase
         await _carService.CreateCarAsync(createDto);
         return StatusCode(201, ApiResponse<object>.SuccessResult(null, 201));
     }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<object>>> Delete(Guid id)
+    {
+        await _carService.DeleteCarAsync(id);
+        return NoContent();
+    }
 }

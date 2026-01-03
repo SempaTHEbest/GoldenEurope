@@ -45,4 +45,12 @@ public class CarService : ICarService
         car.IsSold = false;
         await _repository.AddAsync(car);
     }
+
+    public async Task DeleteCarAsync(Guid id)
+    {
+        var car = await _repository.GetByIdAsync(id);
+        if(car == null) throw new KeyNotFoundException($"Car with id {id} not found");
+        await _repository.DeleteAsync(car);
+        
+    }
 }

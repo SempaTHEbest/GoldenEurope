@@ -7,4 +7,5 @@ public interface ICarService
     Task<IEnumerable<CarDto>> SearchCarsAsync(CarSearchDto dto);
     Task<CarDto> GetCarByIdAsync(Guid id);
     Task CreateCarAsync(CreateCarDto dto);
+    Task DeleteCarAsync(Guid id);
 }
