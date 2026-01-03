@@ -1,5 +1,7 @@
 using AutoMapper;
 using GoldenEurope.Business.DTOs;
+using GoldenEurope.Business.DTOs.BrandDto;
+using GoldenEurope.Business.DTOs.ModelDto;
 using GoldenEurope.Core.Entities;
 using GoldenEurope.Core.Enums;
 
@@ -36,6 +38,17 @@ public class CarMappingProfile : Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.Model, opt => opt.Ignore());
+        
+        //Brand
+        CreateMap<Brand, BrandDto>();
+        CreateMap<CreateBrandDto, Brand>();
+        CreateMap<UpdateBrandDto, Brand>();
+        
+        //Model
+        CreateMap<Model, ModelDto>()
+            .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand != null ? src.Brand.Name : "N/A"));
+        CreateMap<CreateModelDto, Model>();
+        CreateMap<UpdateModelDto, Model>();
         
         //DTOs to filter
         CreateMap<CarSearchDto, CarFilter>();

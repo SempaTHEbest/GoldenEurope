@@ -1,6 +1,5 @@
 namespace GoldenEurope.Business.DTOs.BrandDto;
 
-public record BrandDto(
-    Guid Id,
+public record UpdateBrandDto(
     string Name,
     string Country);

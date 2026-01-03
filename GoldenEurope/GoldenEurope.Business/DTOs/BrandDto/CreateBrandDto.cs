@@ -1,5 +1,5 @@
 namespace GoldenEurope.Business.DTOs.BrandDto;
 
 public record CreateBrandDto(
-    string? Name,
-    string? Country);
+    string Name,
+    string Country);
