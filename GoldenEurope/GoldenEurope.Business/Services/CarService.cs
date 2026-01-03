@@ -46,6 +46,16 @@ public class CarService : ICarService
         await _repository.AddAsync(car);
     }
 
+    public async Task UpdateCarAsync(Guid id, UpdateCarDto dto)
+    {
+        _logger.LogInformation("Updating car", id);
+        var existingCar = await _repository.GetByIdAsync(id);
+        if(existingCar == null)
+            throw new KeyNotFoundException($"Car with id {id} not found");
+        _mapper.Map(dto, existingCar);
+        await _repository.UpdateAsync(existingCar);
+    }
+
     public async Task DeleteCarAsync(Guid id)
     {
         var car = await _repository.GetByIdAsync(id);

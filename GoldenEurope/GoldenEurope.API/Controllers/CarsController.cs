@@ -46,6 +46,16 @@ public class CarsController : ControllerBase
         return StatusCode(201, ApiResponse<object>.SuccessResult(null, 201));
     }
 
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<object>>> Update(Guid id, UpdateCarDto updateDto)
+    {
+        await _carService.UpdateCarAsync(id, updateDto);
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

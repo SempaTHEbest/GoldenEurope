@@ -21,13 +21,21 @@ public class CarMappingProfile : Profile
             .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Body.ToString()))
             .ForMember(dest => dest.Drivetrain, opt => opt.MapFrom(src => src.Drivetrain.ToString()));
         
-        // DTOs to entity
+        // DTOs to entity(Create)
         CreateMap<CreateCarDto, Car>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.Model, opt => opt.Ignore())
             .ForMember(dest => dest.IsSold, opt => opt.Ignore());
+        
+        // DTOs to entity(Update)
+        CreateMap<UpdateCarDto, Car>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Vin, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.Model, opt => opt.Ignore());
         
         //DTOs to filter
         CreateMap<CarSearchDto, CarFilter>();

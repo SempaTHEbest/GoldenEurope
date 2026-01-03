@@ -60,6 +60,7 @@ public class CarRepository : ICarRepository
 
     public async Task UpdateAsync(Car car)
     {
+        car.UpdatedAt = DateTime.UtcNow;
         _context.Set<Car>().Update(car);
         await _context.SaveChangesAsync();
     }
