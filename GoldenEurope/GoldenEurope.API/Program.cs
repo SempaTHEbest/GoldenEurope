@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Asp.Versioning;
 using FluentValidation;
 using System.Threading.RateLimiting;
@@ -102,6 +103,13 @@ try
             policy.QueueLimit = 2;
         });
     });
+    
+    //Controllers + Enum Convertor
+    builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
     
     builder.Services.AddControllers();
     
