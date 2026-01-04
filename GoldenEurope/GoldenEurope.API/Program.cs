@@ -13,7 +13,6 @@ using GoldenEurope.Core.Interfaces;
 using GoldenEurope.Business.Interfaces;
 using GoldenEurope.Business.Services;
 using GoldenEurope.Business.Validators;
-using GoldenEurope.Business.Validators.BrandValidators;
 using GoldenEurope.Persistance;
 using GoldenEurope.Persistance.Repositories;
 
@@ -49,13 +48,17 @@ try
     builder.Services.AddScoped<IBrandRepository, BrandRepository>();
     builder.Services.AddScoped<IBrandService, BrandService>();
     
-    //AutoMapper
-    builder.Services.AddAutoMapper(typeof(CarService).Assembly);
+
+    // AutoMapper 
+    builder.Services.AddAutoMapper(cfg =>
+    {
+        cfg.ShouldMapMethod = (m => false); //fix that shit
+    }, typeof(CarService).Assembly);
     
     //FluentValidation
     builder.Services.AddFluentValidationAutoValidation();
     builder.Services.AddValidatorsFromAssemblyContaining<CreateCarDtoValidator>();
-    builder.Services.AddValidatorsFromAssemblyContaining<CreateBrandDtoValidator>();
+
 
     //Custom secure from errors(if there are error before calling controller ot wont even call it just throw an errors)
     builder.Services.Configure<ApiBehaviorOptions>(options =>
