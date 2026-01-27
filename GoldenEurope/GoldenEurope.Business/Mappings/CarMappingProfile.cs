@@ -13,17 +13,17 @@ public class CarMappingProfile : Profile
     {
         // Entity to DTOs
         CreateMap<Car, CarDto>()
-            .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Model != null && src.Model.Brand != null ? src.Model.Brand.Name : "N/A"))
-            .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.Model != null ? src.Model.Name : "N/A"))
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Model != null ? src.Model.Category : "N/A"))
-            //For safety 
-            .ForMember(dest => dest.Condition, opt => opt.MapFrom(src => src.Condition.ToString()))
-            .ForMember(dest => dest.Fuel, opt => opt.MapFrom(src => src.Fuel.ToString()))
-            .ForMember(dest => dest.Transmission, opt => opt.MapFrom(src => src.Transmission.ToString()))
-            .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Body.ToString()))
-            .ForMember(dest => dest.Drivetrain, opt => opt.MapFrom(src => src.Drivetrain.ToString()));
+            .ForCtorParam(nameof(CarDto.BrandName), opt => opt.MapFrom(src => src.Model != null && src.Model.Brand != null ? src.Model.Brand.Name : "N/A"))
+            .ForCtorParam(nameof(CarDto.ModelName), opt => opt.MapFrom(src => src.Model != null ? src.Model.Name : "N/A"))
+            .ForCtorParam(nameof(CarDto.Category), opt => opt.MapFrom(src => src.Model != null ? src.Model.Category : "N/A"))
+            
+            // 3. Enums -> String (Найважливіше!)
+            .ForCtorParam(nameof(CarDto.Condition), opt => opt.MapFrom(src => src.Condition.ToString()))
+            .ForCtorParam(nameof(CarDto.Fuel), opt => opt.MapFrom(src => src.Fuel.ToString()))
+            .ForCtorParam(nameof(CarDto.Transmission), opt => opt.MapFrom(src => src.Transmission.ToString()))
+            .ForCtorParam(nameof(CarDto.Body), opt => opt.MapFrom(src => src.Body.ToString()))
+            .ForCtorParam(nameof(CarDto.Drivetrain), opt => opt.MapFrom(src => src.Drivetrain.ToString()));
         
-        // DTOs to entity(Create)
         CreateMap<CreateCarDto, Car>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
@@ -31,26 +31,36 @@ public class CarMappingProfile : Profile
             .ForMember(dest => dest.Model, opt => opt.Ignore())
             .ForMember(dest => dest.IsSold, opt => opt.Ignore());
         
-        // DTOs to entity(Update)
-        CreateMap<UpdateCarDto, Car>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Vin, opt => opt.Ignore())
-            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
-            .ForMember(dest => dest.Model, opt => opt.Ignore());
-        
-        //Brand
         CreateMap<Brand, BrandDto>();
-        CreateMap<CreateBrandDto, Brand>();
-        CreateMap<UpdateBrandDto, Brand>();
-        
-        //Model
+        CreateMap<CreateBrandDto, Brand>()
+             .ForMember(dest => dest.Id, opt => opt.Ignore())
+             .ForMember(dest => dest.Models, opt => opt.Ignore())
+             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+             
+        CreateMap<UpdateBrandDto, Brand>()
+             .ForMember(dest => dest.Id, opt => opt.Ignore())
+             .ForMember(dest => dest.Models, opt => opt.Ignore())
+             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+
         CreateMap<Model, ModelDto>()
-            .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand != null ? src.Brand.Name : "N/A"));
-        CreateMap<CreateModelDto, Model>();
-        CreateMap<UpdateModelDto, Model>();
-        
-        //DTOs to filter
+            .ForCtorParam(nameof(ModelDto.BrandName), opt => opt.MapFrom(src => src.Brand != null ? src.Brand.Name : "N/A"));
+
+        CreateMap<CreateModelDto, Model>()
+             .ForMember(dest => dest.Id, opt => opt.Ignore())
+             .ForMember(dest => dest.Brand, opt => opt.Ignore())
+             .ForMember(dest => dest.Cars, opt => opt.Ignore())
+             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+             
+        CreateMap<UpdateModelDto, Model>()
+             .ForMember(dest => dest.Id, opt => opt.Ignore())
+             .ForMember(dest => dest.Brand, opt => opt.Ignore())
+             .ForMember(dest => dest.Cars, opt => opt.Ignore())
+             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+             
         CreateMap<CarSearchDto, CarFilter>();
     }
 }

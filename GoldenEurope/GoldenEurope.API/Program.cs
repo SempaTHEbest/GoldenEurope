@@ -111,7 +111,6 @@ try
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
     
-    builder.Services.AddControllers();
     
     //API Versioning
     builder.Services.AddApiVersioning(options =>

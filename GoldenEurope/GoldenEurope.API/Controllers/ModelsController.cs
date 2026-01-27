@@ -27,11 +27,11 @@ public class ModelsController : ControllerBase
         var result = await _service.GetAllModelsAsync();
         return Ok(ApiResponse<IEnumerable<ModelDto>>.SuccessResult(result));
     }
-    [HttpGet("by-brend/{brendId}")]
+    [HttpGet("by-brand/{brandId}")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<ModelDto>>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<IEnumerable<ModelDto>>>> GetByBrendId(Guid brendId)
     {
-        _logger.LogInformation("Get by BrendId {brendId}", brendId);
+        _logger.LogInformation("Get by BrandId {brandId}", brendId);
         var result = await _service.GetModelByBrandAsync(brendId);
         return Ok(ApiResponse<IEnumerable<ModelDto>>.SuccessResult(result));
     }
