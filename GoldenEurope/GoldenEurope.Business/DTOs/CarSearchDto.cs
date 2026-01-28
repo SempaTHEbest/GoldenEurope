@@ -5,6 +5,7 @@ namespace GoldenEurope.Business.DTOs;
 public record CarSearchDto(
     Guid? BrandId = null,
     Guid? ModelId = null,
+    VehicleCategory? Category = null,
     CarCondition? Condition = null,
     int? YearFrom = null,
     int? YearTo = null,

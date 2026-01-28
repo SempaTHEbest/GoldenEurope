@@ -1,9 +1,11 @@
+using GoldenEurope.Core.Enums;
+
 namespace GoldenEurope.Core.Entities;
 
 public class Model :  BaseEntity
 {
     public string Name { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty; // it's about motocycle or car
+    public VehicleCategory  Category { get; set; }
     public Guid BrandId { get; set; }
     public Brand?  Brand { get; set; }
 

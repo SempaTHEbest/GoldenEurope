@@ -1,6 +1,8 @@
+using GoldenEurope.Core.Enums;
+
 namespace GoldenEurope.Business.DTOs.ModelDto;
 
 public record UpdateModelDto(
     string Name,
-    string Category,
+    VehicleCategory Category,
     Guid BrandId);
