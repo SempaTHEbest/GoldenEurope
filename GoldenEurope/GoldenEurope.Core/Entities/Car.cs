@@ -29,5 +29,8 @@ public class Car : BaseEntity
     public Guid ModelId { get; set; }
     public Model? Model { get; set; }
 
+    //For number
+    public string SellerPhone { get; set; } = string.Empty;
+    public int PhoneViewCount {get; set; } = 0;
 
 }

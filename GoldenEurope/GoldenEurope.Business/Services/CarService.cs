@@ -63,4 +63,9 @@ public class CarService : ICarService
         await _repository.DeleteAsync(car);
         
     }
+
+    public async Task IncrementPhoneViewCountAsync(Guid id)
+    {
+        await _repository.IncrementPhoneViewCountAsync(id);
+    }
 }

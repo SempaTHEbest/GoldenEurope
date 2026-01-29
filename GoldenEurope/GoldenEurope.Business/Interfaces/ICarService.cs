@@ -9,4 +9,5 @@ public interface ICarService
     Task CreateCarAsync(CreateCarDto dto);
     Task UpdateCarAsync(Guid id, UpdateCarDto dto);
     Task DeleteCarAsync(Guid id);
+    Task IncrementPhoneViewCountAsync(Guid id);
 }
