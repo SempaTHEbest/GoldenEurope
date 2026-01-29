@@ -16,4 +16,5 @@ public record UpdateCarDto(
     int HorsePower,
     string? Color,
     string? Description,
+    string SellerPhone,
     bool IsSold);

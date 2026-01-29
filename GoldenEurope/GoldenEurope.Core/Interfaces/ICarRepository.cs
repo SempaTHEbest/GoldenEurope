@@ -10,4 +10,5 @@ public interface ICarRepository
     Task AddAsync(Car car);
     Task UpdateAsync(Car car);
     Task DeleteAsync(Car car);
+    Task IncrementPhoneViewCountAsync(Guid id);
 }

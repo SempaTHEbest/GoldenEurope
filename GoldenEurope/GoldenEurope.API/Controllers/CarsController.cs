@@ -56,6 +56,14 @@ public class CarsController : ControllerBase
         return NoContent();
     }
 
+    [HttpPatch("{id}/view-phone")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> IncrementPhoneView(Guid id)
+    {
+        await _carService.IncrementPhoneViewCountAsync(id);
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]

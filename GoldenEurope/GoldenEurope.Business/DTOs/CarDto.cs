@@ -17,4 +17,6 @@ public record CarDto(
     string Color,
     string Description,
     bool IsSold,
+    string SellerPhone,
+    int PhoneViewCount,
     DateTime? CreatedAt);

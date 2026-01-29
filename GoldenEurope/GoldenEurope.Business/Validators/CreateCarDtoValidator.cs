@@ -24,6 +24,10 @@ public class CreateCarDtoValidator :  AbstractValidator<CreateCarDto>
         RuleFor(x => x.Description)
             .MaximumLength(1000).WithMessage("Description cannot be longer than 1000 characters");
 
+        RuleFor(x => x.SellerPhone)
+            .NotEmpty().WithMessage("Seller phone cannot be empty")
+            .Matches(@"^\+?[0-9]{10,15}$").WithMessage("Phone number must be valid (e.g. +380501234567)");
+
         RuleFor(x => x.Fuel).IsInEnum();
         RuleFor(x => x.Transmission).IsInEnum();
         RuleFor(x => x.Condition).IsInEnum();

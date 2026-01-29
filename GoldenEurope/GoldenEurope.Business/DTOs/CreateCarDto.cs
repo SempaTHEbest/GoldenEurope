@@ -16,4 +16,5 @@ public record CreateCarDto(
     decimal EngineVolume,
     int HorsePower,
     string Color,
-    string Description);
+    string Description,
+    string SellerPhone);

@@ -70,4 +70,11 @@ public class CarRepository : ICarRepository
         _context.Set<Car>().Remove(car);
         await _context.SaveChangesAsync();
     }
+
+    public async Task IncrementPhoneViewCountAsync(Guid id)
+    {
+        await _context.Set<Car>()
+            .Where(c => c.Id == id)
+            .ExecuteUpdateAsync(s => s.SetProperty(c => c.PhoneViewCount, c => c.PhoneViewCount + 1));
+    }
 }
