@@ -2,6 +2,7 @@ using Asp.Versioning;
 using GoldenEurope.API.Models;
 using GoldenEurope.Business.DTOs;
 using GoldenEurope.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoldenEurope.API.Controllers;
@@ -38,8 +39,10 @@ public class CarsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize("Admin")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] CreateCarDto createDto)
     {
         await _carService.CreateCarAsync(createDto);
@@ -47,9 +50,11 @@ public class CarsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> Update(Guid id, UpdateCarDto updateDto)
     {
         await _carService.UpdateCarAsync(id, updateDto);
@@ -65,8 +70,10 @@ public class CarsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> Delete(Guid id)
     {
         await _carService.DeleteCarAsync(id);
