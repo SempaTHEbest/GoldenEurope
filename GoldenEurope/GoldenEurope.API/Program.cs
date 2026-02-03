@@ -1,15 +1,21 @@
 using System.Text.Json.Serialization;
+using System.Text;
 using Asp.Versioning;
 using FluentValidation;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using GoldenEurope.API.Middlewares;
 using GoldenEurope.API.Models;
+using GoldenEurope.API.Data; 
+using GoldenEurope.Core.Entities;
 using GoldenEurope.Core.Interfaces;
 using GoldenEurope.Business.Interfaces;
 using GoldenEurope.Business.Services;
@@ -43,6 +49,39 @@ try
     builder.Services.AddDbContext<GoldenEuropeDbContext>(options =>
         options.UseSqlServer(connectionString));
     
+    // IDENTITY CONFIGURATION 
+    builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequiredLength = 6;
+    })
+    .AddEntityFrameworkStores<GoldenEuropeDbContext>()
+    .AddDefaultTokenProviders();
+
+    //JWT AUTHENTICATION CONFIGURATION 
+    var jwtKey = builder.Configuration["Jwt:Key"];
+    var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+    var jwtAudience = builder.Configuration["Jwt:Audience"];
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey!))
+        };
+    });
+
     //DI
     builder.Services.AddScoped<ICarRepository, CarRepository>();
     builder.Services.AddScoped<ICarService, CarService>();
@@ -52,6 +91,8 @@ try
     
     builder.Services.AddScoped<IModelRepository, ModelRepository>();
     builder.Services.AddScoped<IModelService, ModelService>();
+
+    builder.Services.AddScoped<IAuthService, AuthService>();
     
 
     // AutoMapper 
@@ -65,7 +106,7 @@ try
     builder.Services.AddValidatorsFromAssemblyContaining<CreateCarDtoValidator>();
 
 
-    //Custom secure from errors(if there are error before calling controller ot wont even call it just throw an errors)
+    //Custom secure from errors
     builder.Services.Configure<ApiBehaviorOptions>(options =>
         options.InvalidModelStateResponseFactory = context =>
         {
@@ -136,7 +177,7 @@ try
             Type = SecuritySchemeType.Http,
             Scheme = "Bearer",
             BearerFormat = "JWT", In = ParameterLocation.Header,
-            Description = "Enter your valid token in  the text input below" 
+            Description = "Enter your valid token in the text input below" 
         });
         c.AddSecurityRequirement(new OpenApiSecurityRequirement
         {
@@ -150,6 +191,20 @@ try
     });
 
     var app = builder.Build();
+
+    //SEED DATA 
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try 
+        {
+            await DbInitializer.SeedAdminUser(services);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "An error occurred while seeding the database.");
+        }
+    }
     
     //Middleware
     app.UseSerilogRequestLogging();
@@ -166,8 +221,11 @@ try
     app.UseHttpsRedirection();
     app.UseCors("AllowReactApp");
     app.UseRateLimiter();
+    
+    // Auth Middleware
     app.UseAuthentication();
     app.UseAuthorization();
+    
     app.MapControllers()
         .RequireRateLimiting("fixed");
     app.Run();

@@ -1,9 +1,10 @@
 using GoldenEurope.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoldenEurope.Persistance;
 
-public class GoldenEuropeDbContext : DbContext
+public class GoldenEuropeDbContext : IdentityDbContext<ApplicationUser>
 {
     public GoldenEuropeDbContext(DbContextOptions<GoldenEuropeDbContext> options) : base(options) { }
     
