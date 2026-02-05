@@ -22,10 +22,10 @@ public class CarService : ICarService
         _logger = logger;
         _photoService = photoService;
     }
+
     public async Task<IEnumerable<CarDto>> SearchCarsAsync(CarSearchDto dto)
     {
         _logger.LogInformation("Searching cars...", dto);
-
         var filter = _mapper.Map<CarFilter>(dto);
         var cars = await _repository.SearchAsync(filter);
         return _mapper.Map<IEnumerable<CarDto>>(cars);
@@ -34,7 +34,7 @@ public class CarService : ICarService
     public async Task<CarDto> GetCarByIdAsync(Guid id)
     {
         var car = await _repository.GetByIdAsync(id);
-        if(car == null)
+        if (car == null)
             throw new KeyNotFoundException($"Car with id {id} not found");
         return _mapper.Map<CarDto>(car);
     }
@@ -42,7 +42,6 @@ public class CarService : ICarService
     public async Task CreateCarAsync(CreateCarDto dto)
     {
         _logger.LogInformation("Creating car...", dto);
-        
         var car = _mapper.Map<Car>(dto);
 
         if (dto.Images != null && dto.Images.Count > 0)
@@ -50,34 +49,57 @@ public class CarService : ICarService
             foreach (var file in dto.Images)
             {
                 var (url, publicId) = await _photoService.AddPhotoAsync(file);
-                
-                car.Images.Add(new CarImage
-                {
-                    Url = url,
-                    PublicId = publicId
-                });
+                car.Images.Add(new CarImage { Url = url, PublicId = publicId });
             }
         }
         await _repository.AddAsync(car);
-        
     }
 
     public async Task UpdateCarAsync(Guid id, UpdateCarDto dto)
     {
-        _logger.LogInformation("Updating car", id);
+        _logger.LogInformation("Updating car {Id}", id);
+        
         var existingCar = await _repository.GetByIdAsync(id);
-        if(existingCar == null)
+        if (existingCar == null)
             throw new KeyNotFoundException($"Car with id {id} not found");
+        
         _mapper.Map(dto, existingCar);
+
+        if (dto.Images != null && dto.Images.Count > 0)
+        {
+            foreach (var file in dto.Images)
+            {
+                var (url, publicId) = await _photoService.AddPhotoAsync(file);
+                existingCar.Images.Add(new CarImage 
+                { 
+                    Url = url, 
+                    PublicId = publicId 
+                });
+            }
+        }
+
         await _repository.UpdateAsync(existingCar);
     }
 
     public async Task DeleteCarAsync(Guid id)
     {
-        var car = await _repository.GetByIdAsync(id);
-        if(car == null) throw new KeyNotFoundException($"Car with id {id} not found");
-        await _repository.DeleteAsync(car);
+        _logger.LogInformation("Deleting car {Id}", id);
         
+        var car = await _repository.GetByIdAsync(id);
+        if (car == null) 
+            throw new KeyNotFoundException($"Car with id {id} not found");
+        
+        if (car.Images != null && car.Images.Any())
+        {
+            foreach (var image in car.Images)
+            {
+                if (!string.IsNullOrEmpty(image.PublicId))
+                {
+                    await _photoService.DeletePhotoAsync(image.PublicId);
+                }
+            }
+        }
+        await _repository.DeleteAsync(car);
     }
 
     public async Task IncrementPhoneViewCountAsync(Guid id)

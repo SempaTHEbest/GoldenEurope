@@ -55,7 +55,7 @@ public class CarsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<ApiResponse<object>>> Update(Guid id, UpdateCarDto updateDto)
+    public async Task<ActionResult<ApiResponse<object>>> Update(Guid id, [FromForm] UpdateCarDto updateDto)
     {
         await _carService.UpdateCarAsync(id, updateDto);
         return NoContent();

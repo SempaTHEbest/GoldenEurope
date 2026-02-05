@@ -1,4 +1,5 @@
 using GoldenEurope.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace GoldenEurope.Business.DTOs;
 
@@ -17,4 +18,5 @@ public record UpdateCarDto(
     string? Color,
     string? Description,
     string SellerPhone,
-    bool IsSold);
+    bool IsSold,
+    IFormFileCollection? Images);

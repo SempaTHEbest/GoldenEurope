@@ -16,6 +16,7 @@ public class CarRepository : ICarRepository
     public async Task<IEnumerable<Car>> SearchAsync(CarFilter filter)
     {
         var query = _context.Set<Car>()
+            .Include(c => c.Images)
             .Include(c => c.Model).ThenInclude(m => m.Brand)
             .AsNoTracking()
             .AsQueryable();
@@ -32,15 +33,15 @@ public class CarRepository : ICarRepository
         if (filter.Condition.HasValue && filter.Condition != CarCondition.All)
             query = query.Where(c => c.Condition == filter.Condition.Value);
         
-        if(filter.YearFrom.HasValue) query = query.Where(c => c.Year >= filter.YearFrom.Value);
-        if(filter.YearTo.HasValue) query = query.Where(c => c.Year <= filter.YearTo.Value);
+        if (filter.YearFrom.HasValue) query = query.Where(c => c.Year >= filter.YearFrom.Value);
+        if (filter.YearTo.HasValue) query = query.Where(c => c.Year <= filter.YearTo.Value);
         
-        if(filter.PriceFrom.HasValue) query = query.Where(c => c.Price >= filter.PriceFrom.Value);
-        if(filter.PriceTo.HasValue) query = query.Where(c => c.Price <= filter.PriceTo.Value);
+        if (filter.PriceFrom.HasValue) query = query.Where(c => c.Price >= filter.PriceFrom.Value);
+        if (filter.PriceTo.HasValue) query = query.Where(c => c.Price <= filter.PriceTo.Value);
         
-        if(filter.Fuel.HasValue) query = query.Where(c => c.Fuel >= filter.Fuel.Value);
-        if(filter.Transmission.HasValue) query = query.Where(c => c.Transmission >= filter.Transmission.Value);
-        if(filter.Body.HasValue) query = query.Where(c => c.Body >= filter.Body.Value);
+        if (filter.Fuel.HasValue) query = query.Where(c => c.Fuel >= filter.Fuel.Value);
+        if (filter.Transmission.HasValue) query = query.Where(c => c.Transmission >= filter.Transmission.Value);
+        if (filter.Body.HasValue) query = query.Where(c => c.Body >= filter.Body.Value);
         
         return await query.OrderByDescending(c => c.CreatedAt).ToListAsync();
     }
@@ -48,6 +49,7 @@ public class CarRepository : ICarRepository
     public async Task<Car?> GetByIdAsync(Guid id)
     {
         return await _context.Set<Car>()
+            .Include(c => c.Images) 
             .Include(c => c.Model).ThenInclude(m => m.Brand)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
