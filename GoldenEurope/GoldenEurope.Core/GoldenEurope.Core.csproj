@@ -7,9 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.Extensions.Identity.Stores">
-        <HintPath>..\..\..\..\.nuget\packages\microsoft.aspnetcore.app.ref\9.0.11\ref\net9.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
-      </Reference>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
 </Project>

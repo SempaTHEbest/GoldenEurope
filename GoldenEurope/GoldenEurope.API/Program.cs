@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using System.Text;
+using System.Security.Claims;
 using Asp.Versioning;
 using FluentValidation;
 using System.Threading.RateLimiting;
@@ -20,6 +21,8 @@ using GoldenEurope.Core.Interfaces;
 using GoldenEurope.Business.Interfaces;
 using GoldenEurope.Business.Services;
 using GoldenEurope.Business.Validators;
+using GoldenEurope.Infrastructure.Services;
+using GoldenEurope.Infrastructure.Settings;
 using GoldenEurope.Persistance;
 using GoldenEurope.Persistance.Repositories;
 
@@ -49,17 +52,20 @@ try
     builder.Services.AddDbContext<GoldenEuropeDbContext>(options =>
         options.UseSqlServer(connectionString));
     
-    // IDENTITY CONFIGURATION 
-    builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    //IDENTITY CONFIGURATION
+    builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
         options.Password.RequireDigit = true;
         options.Password.RequireLowercase = true;
         options.Password.RequiredLength = 6;
     })
+    .AddRoles<IdentityRole>() 
     .AddEntityFrameworkStores<GoldenEuropeDbContext>()
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddUserManager<UserManager<ApplicationUser>>()
     .AddDefaultTokenProviders();
 
-    //JWT AUTHENTICATION CONFIGURATION 
+    // JWT AUTHENTICATION CONFIGURATION
     var jwtKey = builder.Configuration["Jwt:Key"];
     var jwtIssuer = builder.Configuration["Jwt:Issuer"];
     var jwtAudience = builder.Configuration["Jwt:Audience"];
@@ -68,8 +74,11 @@ try
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     }).AddJwtBearer(options =>
     {
+        options.MapInboundClaims = false;
+        
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -78,7 +87,9 @@ try
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey!))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey!)),
+            RoleClaimType = ClaimTypes.Role,
+            NameClaimType = "email"
         };
     });
 
@@ -93,6 +104,10 @@ try
     builder.Services.AddScoped<IModelService, ModelService>();
 
     builder.Services.AddScoped<IAuthService, AuthService>();
+    
+    //Cloudinary service and config
+    builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+    builder.Services.AddScoped<IPhotoService, PhotoService>();
     
 
     // AutoMapper 
@@ -222,7 +237,7 @@ try
     app.UseCors("AllowReactApp");
     app.UseRateLimiter();
     
-    // Auth Middleware
+    // Auth Middleware 
     app.UseAuthentication();
     app.UseAuthorization();
     

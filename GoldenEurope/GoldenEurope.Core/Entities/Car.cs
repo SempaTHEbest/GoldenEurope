@@ -32,5 +32,8 @@ public class Car : BaseEntity
     //For number
     public string SellerPhone { get; set; } = string.Empty;
     public int PhoneViewCount {get; set; } = 0;
+    
+    //for image
+    public ICollection<CarImage> Images { get; set; } = new List<CarImage>();
 
 }

@@ -1,4 +1,5 @@
 using GoldenEurope.Core.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace GoldenEurope.Business.DTOs;
 
@@ -17,4 +18,5 @@ public record CreateCarDto(
     int HorsePower,
     string Color,
     string Description,
-    string SellerPhone);
+    string SellerPhone,
+    IFormFileCollection Images);

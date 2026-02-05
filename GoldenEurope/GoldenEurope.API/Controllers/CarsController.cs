@@ -43,7 +43,7 @@ public class CarsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<ApiResponse<object>>> Create([FromBody] CreateCarDto createDto)
+    public async Task<ActionResult<ApiResponse<object>>> Create([FromForm] CreateCarDto createDto)
     {
         await _carService.CreateCarAsync(createDto);
         return StatusCode(201, ApiResponse<object>.SuccessResult(null, 201));

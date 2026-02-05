@@ -1,3 +1,5 @@
+using GoldenEurope.Core.Entities;
+
 namespace GoldenEurope.Business.DTOs;
 
 public record CarDto(
@@ -19,4 +21,5 @@ public record CarDto(
     bool IsSold,
     string SellerPhone,
     int PhoneViewCount,
-    DateTime? CreatedAt);
+    DateTime? CreatedAt,
+    IEnumerable<CarImageDto> Images);
